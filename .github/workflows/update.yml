@@ -34,4 +34,4 @@ jobs:
         run: |-
           datasette publish vercel air-sensors.db --install=datasette-vega \
             --token $NOW_TOKEN \
-            --project lewisham-air-sensors-history
+            --project tower-hamlets-air-sensors-history
