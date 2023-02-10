@@ -13,8 +13,8 @@ table = db.table(
     column_order=("@MeasurementDateGMT", "@Value", "@Site")
 )
 
-# EXTRACT THE SITES IN LEWISHAM
-req = requests.get("https://api.erg.ic.ac.uk/AirQuality/Information/MonitoringSiteSpecies/GroupName=lewisham/Json")
+# EXTRACT THE SITES IN TOWER HAMLETS
+req = requests.get("https://api.erg.ic.ac.uk/AirQuality/Information/MonitoringSiteSpecies/GroupName=towerhamlets/Json")
 js = req.json()
 sites = js['Sites']['Site']
 
