@@ -17,6 +17,9 @@ table = db.table(
 req = requests.get("https://api.erg.ic.ac.uk/AirQuality/Information/MonitoringSiteSpecies/GroupName=towerhamlets/Json")
 js = req.json()
 sites = js['Sites']['Site']
+db['sites'].upsert_all(sites,pk=('@SiteCode'))
+db['sites'].transform(rename={"@Longitude": "Longitude"})
+db['sites'].transform(rename={"@Latitude": "Latitude"})
 
 # PREPARE TO SCAN DATA FOR THE LAST 1 WEEK
 EndDate = date.today() + timedelta(days = 1)
