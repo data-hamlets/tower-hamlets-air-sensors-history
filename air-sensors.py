@@ -18,11 +18,6 @@ req = requests.get("https://api.erg.ic.ac.uk/AirQuality/Information/MonitoringSi
 js = req.json()
 sites = js['Sites']['Site']
 db['sites'].upsert_all(sites,pk=('@SiteCode'))
-try:
-    db['sites'].transform(rename={"@Longitude": "Longitude"})
-    db['sites'].transform(rename={"@Latitude": "Latitude"})
-except:
-    print('sites table already have column names in right coordinates')
 
 # PREPARE TO SCAN DATA FOR THE LAST 1 WEEK
 EndDate = date.today() + timedelta(days = 1)
