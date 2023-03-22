@@ -4,6 +4,12 @@ import sqlite_utils
 
 # SETUP DATABASE, TABLE AND SCHEMA
 db = sqlite_utils.Database("air-sensors.db")
+
+# EXTRACT THE SITES IN TOWER HAMLETS
+req = requests.get("https://api.erg.ic.ac.uk/AirQuality/Information/MonitoringSiteSpecies/GroupName=towerhamlets/Json")
+js = req.json()
+sites = js['Sites']['Site']
+
 # WE ARE ONLY COLLECTING NO2 AS THIS IS THE ONLY PARTICLE THAT IS MEASURED AT ALL SITES
 tablename = 'NO2'
 table = db.table(
