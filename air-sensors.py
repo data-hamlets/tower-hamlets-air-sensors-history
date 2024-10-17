@@ -7,6 +7,7 @@ import time
 db = sqlite_utils.Database("air-sensors.db", recreate=False)
 
 # EXTRACT THE SITES IN TOWER HAMLETS
+db["sites"].drop(ignore=True)
 req = requests.get(
     "https://api.erg.ic.ac.uk/AirQuality/Information/MonitoringSiteSpecies/GroupName=towerhamlets/Json"
 )
