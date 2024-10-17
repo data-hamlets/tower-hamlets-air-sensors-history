@@ -4,7 +4,7 @@ import sqlite_utils
 import time
 
 # SETUP DATABASE, TABLE AND SCHEMA
-db = sqlite_utils.Database("air-sensors-.db", recreate=False)
+db = sqlite_utils.Database("air-sensors.db", recreate=False)
 
 # EXTRACT THE SITES IN TOWER HAMLETS
 req = requests.get(
