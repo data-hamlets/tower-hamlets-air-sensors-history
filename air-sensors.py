@@ -12,9 +12,9 @@ req = requests.get(
 )
 js = req.json()
 sites = js["Sites"]["Site"]
-# db["sites"].upsert_all(sites, pk=("@SiteCode"))
-# db["sites"].transform(rename={"@Longitude": "Longitude"})
-# db["sites"].transform(rename={"@Latitude": "Latitude"})
+db["sites"].upsert_all(sites, pk=("@SiteCode"))
+db["sites"].transform(rename={"@Longitude": "Longitude"})
+db["sites"].transform(rename={"@Latitude": "Latitude"})
 
 # WE ARE ONLY COLLECTING NO2 AS THIS IS THE ONLY PARTICLE THAT IS MEASURED AT ALL SITES
 tablename = "NO2"
