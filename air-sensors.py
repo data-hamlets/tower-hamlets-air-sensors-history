@@ -39,11 +39,11 @@ for i in range(days_to_step_back, -1, -1):
     # PREPARE TO SCAN DATA FOR THE LAST 1 WEEK
     EndDate = previous_date + timedelta(days=1)
     EndWeekDate = EndDate
-    StartWeekDate = EndDate - timedelta(days=1)
-    StartDate = StartWeekDate - timedelta(days=1)
+    StartEpochDate = EndDate - timedelta(days=1)
+    StartDate = StartEpochDate - timedelta(days=1)
 
     # GET THE JSON DATA, UPSERT INTO THE FULL HISTORY DATABASE
-    while StartWeekDate > StartDate:
+    while StartEpochDate > StartDate:
         for el in sites:
 
             def convert(l):
@@ -51,7 +51,7 @@ for i in range(days_to_step_back, -1, -1):
                 l["@SiteCode"] = el["@SiteCode"]
                 return l
 
-            url = f'https://api.erg.ic.ac.uk/AirQuality/Data/SiteSpecies/SiteCode={el["@SiteCode"]}/SpeciesCode=NO2/StartDate={StartWeekDate.strftime("%d %b %Y")}/EndDate={EndWeekDate.strftime("%d %b %Y")}/Json'
+            url = f'https://api.erg.ic.ac.uk/AirQuality/Data/SiteSpecies/SiteCode={el["@SiteCode"]}/SpeciesCode=NO2/StartDate={StartEpochDate.strftime("%d %b %Y")}/EndDate={EndWeekDate.strftime("%d %b %Y")}/Json'
             print(url)
             req = requests.get(url, headers={"Connection": "close"})
             j = req.json()
@@ -65,8 +65,8 @@ for i in range(days_to_step_back, -1, -1):
                 filtered = map(convert, filtered)
                 filteredList = list(filtered)
                 db[tablename].upsert_all(filteredList, pk=("@MeasurementDateGMT", "@SiteCode"))
-        EndWeekDate = StartWeekDate
-        StartWeekDate = EndWeekDate - timedelta(weeks=1)
+        EndWeekDate = StartEpochDate
+        StartEpochDate = EndWeekDate - timedelta(days=1)
 
     # at end of each for loop iteration
     # move current_date back a step preparing next iteration
